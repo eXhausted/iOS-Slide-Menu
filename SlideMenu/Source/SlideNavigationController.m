@@ -520,7 +520,7 @@ static SlideNavigationController *singletonInstance;
 - (void)moveHorizontallyToLocation:(CGFloat)location
 {
 	CGRect rect = self.view.frame;
-	UIInterfaceOrientation orientation = self.interfaceOrientation;
+	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
 	Menu menu = (self.horizontalLocation >= 0 && location >= 0) ? MenuLeft : MenuRight;
     
     if ((location > 0 && self.horizontalLocation <= 0) || (location < 0 && self.horizontalLocation >= 0)) {
@@ -570,16 +570,18 @@ static SlideNavigationController *singletonInstance;
         return rect;
     }
 	
-	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+	
+	if (UIInterfaceOrientationIsLandscape(orientation))
 	{
         // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
-        rect.origin.x = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
+        rect.origin.x = (orientation == UIInterfaceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
         rect.size.width = self.view.frame.size.width-STATUS_BAR_HEIGHT;
 	}
 	else
 	{
         // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
-        rect.origin.y = (self.interfaceOrientation == UIInterfaceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
+        rect.origin.y = (orientation == UIInterfaceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
         rect.size.height = self.view.frame.size.height-STATUS_BAR_HEIGHT;
 	}
 	
@@ -608,7 +610,7 @@ static SlideNavigationController *singletonInstance;
 - (CGFloat)horizontalLocation
 {
 	CGRect rect = self.view.frame;
-	UIInterfaceOrientation orientation = self.interfaceOrientation;
+	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
 	
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
@@ -634,7 +636,7 @@ static SlideNavigationController *singletonInstance;
 - (CGFloat)horizontalSize
 {
 	CGRect rect = self.view.frame;
-	UIInterfaceOrientation orientation = self.interfaceOrientation;
+	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
 	
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
@@ -682,7 +684,7 @@ static SlideNavigationController *singletonInstance;
 
 - (CGFloat)slideOffset
 {
-	return (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+	return (UIInterfaceOrientationIsLandscape([UIDevice currentDevice].orientation))
 		? self.landscapeSlideOffset
 		: self.portraitSlideOffset;
 }
