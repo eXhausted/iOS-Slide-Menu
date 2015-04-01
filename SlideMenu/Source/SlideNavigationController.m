@@ -172,6 +172,11 @@ static SlideNavigationController *singletonInstance;
     self.menuNeedsLayout = YES;
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    singletonInstance = nil;
+}
+
 #pragma mark - Public Methods -
 
 - (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion
